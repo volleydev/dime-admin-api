@@ -34,6 +34,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const firebase_admin_1 = __importDefault(require("firebase-admin"));
 const body_parser_1 = __importDefault(require("body-parser"));
+const image_upload_1 = require("./services/image-upload");
 const app = express_1.default();
 const port = 8080;
 const dev = process.env.NODE_ENV == "dev";
@@ -57,6 +58,15 @@ app.get("/", (req, res) => {
 app.get("/iam/:name", (req, res) => {
     res.send(`Hello I am ${req.params.name}`);
 });
+app.get("/upload", (req, res) => {
+    res.writeHead(200, { "Content-Type": "text/html" });
+    res.write('<form action="upload/image" method="post" enctype="multipart/form-data">');
+    res.write('<input type="file" name="filetoupload"><br>');
+    res.write('<input type="submit">');
+    res.write("</form>");
+    return res.end();
+});
+app.post("/upload/image", image_upload_1.imageUpload);
 // start the Express server
 app.listen(port, () => {
     console.log(`server started at http://localhost:${port}`);
