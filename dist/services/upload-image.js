@@ -14,25 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.imageUpload = void 0;
 const formidable_1 = __importDefault(require("formidable"));
-const storage_1 = require("@google-cloud/storage");
-const path_1 = __importDefault(require("path"));
-const dev = process.env.NODE_ENV == "dev";
-let storage;
-if (dev) {
-    try {
-        storage = new storage_1.Storage({
-            keyFilename: path_1.default.join(__dirname, "./../config/serviceAccount.json"),
-        });
-    }
-    catch (error) {
-        console.log("Error storage", error);
-    }
-}
-else {
-    storage = new storage_1.Storage();
-}
 const imageUpload = (req, res) => {
     const form = new formidable_1.default.IncomingForm();
+    const { storage } = req;
     form.parse(req, function (error, fields, files) {
         if (error) {
             res.end({ error });
@@ -66,4 +50,4 @@ const imageUpload = (req, res) => {
     });
 };
 exports.imageUpload = imageUpload;
-//# sourceMappingURL=image-upload.js.map
+//# sourceMappingURL=upload-image.js.map

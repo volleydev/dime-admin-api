@@ -1,6 +1,6 @@
 import admin from "firebase-admin";
 
-export const withAuth = async (req, res, next) => {
+export const withAuthentication = async (req, res, next) =>
   admin
     .auth()
     .verifyIdToken(req.headers.authorization || "")
@@ -21,4 +21,3 @@ export const withAuth = async (req, res, next) => {
       console.log(error);
       res.status(404).send(error);
     });
-};

@@ -31,22 +31,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.initAuth = void 0;
+exports.initAuthentication = void 0;
 const firebase_admin_1 = __importDefault(require("firebase-admin"));
 const dev = process.env.NODE_ENV == "dev";
-const initAuth = () => {
+const initAuthentication = () => {
     if (dev) {
-        const initAuth = () => __awaiter(void 0, void 0, void 0, function* () {
+        const init = () => __awaiter(void 0, void 0, void 0, function* () {
             const keyFilename = yield Promise.resolve().then(() => __importStar(require("../config/serviceAccount.json")));
             firebase_admin_1.default.initializeApp({
                 credential: firebase_admin_1.default.credential.cert(keyFilename.default),
             });
         });
-        initAuth();
+        init();
+        console.log("\x1b[32m", "Authentication: live.");
     }
     else {
         firebase_admin_1.default.initializeApp();
     }
 };
-exports.initAuth = initAuth;
-//# sourceMappingURL=auth.js.map
+exports.initAuthentication = initAuthentication;
+//# sourceMappingURL=authentication.js.map

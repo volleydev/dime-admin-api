@@ -8,16 +8,19 @@
     "build": "tsc",
     "prestart": "npm run build",
     "start": "node .",
-    "dev": "tsc  & nodemon -r dotenv/config"
+    "dev": "tsc -w & nodemon -r dotenv/config"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@google-cloud/firestore": "^4.8.1",
+    "@types/formidable": "^1.0.31",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "firebase-admin": "^9.4.2",
-    "formidable": "^1.2.2"
+    "formidable": "^1.2.2",
+    "stripe": "^8.129.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.9",
