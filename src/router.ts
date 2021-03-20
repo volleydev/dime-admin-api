@@ -1,11 +1,11 @@
 // import { imageUpload } from "./routes/upload-image";
 
-// import { withAuthentication } from "./middlewares/with-authentication";
+ import { withAuthentication } from "./middlewares/with-authentication";
 // import { withStorage } from "./middlewares/with-storage";
 // import { withDatabase } from "./middlewares/with-database";
 
 export const router = (app) => {
-  app.get("/", (req, res) => {
+  app.get("/", withAuthentication, (req, res) => {
     res.send("Hello world!");
   });
 

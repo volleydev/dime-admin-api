@@ -2,11 +2,11 @@
 // import { imageUpload } from "./routes/upload-image";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.router = void 0;
-// import { withAuthentication } from "./middlewares/with-authentication";
+const with_authentication_1 = require("./middlewares/with-authentication");
 // import { withStorage } from "./middlewares/with-storage";
 // import { withDatabase } from "./middlewares/with-database";
 const router = (app) => {
-    app.get("/", (req, res) => {
+    app.get("/", with_authentication_1.withAuthentication, (req, res) => {
         res.send("Hello world!");
     });
     // app.post("/upload/image", withStorage, withDatabase, imageUpload);

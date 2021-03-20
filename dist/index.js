@@ -5,12 +5,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
+const authentication_1 = require("./services/authentication");
+const cors_1 = __importDefault(require("cors"));
 const router_1 = require("./router");
 const app = express_1.default();
 const port = process.env.PORT;
-// initAuthentication();
+authentication_1.initAuthentication();
 // initStorage();
 // initDatabase();
+app.use(cors_1.default());
 app.use(body_parser_1.default.json());
 router_1.router(app);
 app.listen(port, () => {

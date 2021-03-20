@@ -35,7 +35,7 @@ exports.initAuthentication = void 0;
 const firebase_admin_1 = __importDefault(require("firebase-admin"));
 const dev = process.env.NODE_ENV == "dev";
 const initAuthentication = () => {
-    if (dev) {
+    if (dev) { // wenn im dev
         try {
             const init = () => __awaiter(void 0, void 0, void 0, function* () {
                 const keyFilename = yield Promise.resolve().then(() => __importStar(require("../config/serviceAccount.json")));
