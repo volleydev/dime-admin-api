@@ -4,17 +4,15 @@ import bodyParser from "body-parser";
 import { initAuthentication } from "./services/authentication";
 import { initStorage } from "./services/storage";
 import { initDatabase } from "./services/database";
-import { initStripe } from "./services/stripe";
 
 import { router } from "./router";
 
 const app = express();
 const port = process.env.PORT;
 
-initAuthentication();
-initStorage();
-initDatabase();
-initStripe();
+// initAuthentication();
+// initStorage();
+// initDatabase();
 
 app.use(bodyParser.json());
 

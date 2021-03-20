@@ -36,14 +36,19 @@ const firebase_admin_1 = __importDefault(require("firebase-admin"));
 const dev = process.env.NODE_ENV == "dev";
 const initAuthentication = () => {
     if (dev) {
-        const init = () => __awaiter(void 0, void 0, void 0, function* () {
-            const keyFilename = yield Promise.resolve().then(() => __importStar(require("../config/serviceAccount.json")));
-            firebase_admin_1.default.initializeApp({
-                credential: firebase_admin_1.default.credential.cert(keyFilename.default),
+        try {
+            const init = () => __awaiter(void 0, void 0, void 0, function* () {
+                const keyFilename = yield Promise.resolve().then(() => __importStar(require("../config/serviceAccount.json")));
+                firebase_admin_1.default.initializeApp({
+                    credential: firebase_admin_1.default.credential.cert(keyFilename.default),
+                });
             });
-        });
-        init();
-        console.log("\x1b[32m", "Authentication: live.");
+            init();
+            console.log("\x1b[32m", "Authentication: live.");
+        }
+        catch (error) {
+            console.log("ERROR", error);
+        }
     }
     else {
         firebase_admin_1.default.initializeApp();
