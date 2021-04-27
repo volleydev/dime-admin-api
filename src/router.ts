@@ -1,13 +1,24 @@
-// import { imageUpload } from "./routes/upload-image";
+import { withAuthentication } from "./middlewares/with-authentication";
+import { withDatabase } from "./middlewares/with-database";
 
- import { withAuthentication } from "./middlewares/with-authentication";
-// import { withStorage } from "./middlewares/with-storage";
-// import { withDatabase } from "./middlewares/with-database";
+import {
+  postMenu,
+  getMenu,
+  patchMenu,
+  deleteMenu,
+  getUserMenus,
+} from "./routes/menu";
 
 export const router = (app) => {
-  app.get("/", withAuthentication, (req, res) => {
-    res.send("Hello world!");
-  });
+  app.post("/menu", withAuthentication, withDatabase, postMenu);
+  app.get("/menu/:id", withAuthentication, withDatabase, getMenu);
+  app.patch("/menu/:id", withAuthentication, withDatabase, patchMenu);
+  app.delete("/menu/:id", withAuthentication, withDatabase, deleteMenu);
 
-  // app.post("/upload/image", withStorage, withDatabase, imageUpload);
+  app.get("/user/:id/menus", withAuthentication, withDatabase, getUserMenus);
+
+  app.get("/menus", (req, res) => {
+    res.setHeader("Content-Type", "application/json");
+    res.status(200).send([{ id: "1" }, { id: "2" }, { id: "3" }]);
+  });
 };

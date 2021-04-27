@@ -6,17 +6,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const authentication_1 = require("./services/authentication");
+const database_1 = require("./services/database");
 const cors_1 = __importDefault(require("cors"));
 const router_1 = require("./router");
 const app = express_1.default();
-const port = process.env.PORT;
+const port = process.env.PORT || 8081;
 authentication_1.initAuthentication();
+database_1.initDatabase();
 // initStorage();
-// initDatabase();
 app.use(cors_1.default());
 app.use(body_parser_1.default.json());
 router_1.router(app);
 app.listen(port, () => {
     console.log("\x1b[32m", `Server: live on port ${port}.`);
 });
+exports.default = app;
 //# sourceMappingURL=index.js.map

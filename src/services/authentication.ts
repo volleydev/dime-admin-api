@@ -1,9 +1,9 @@
 import admin from "firebase-admin";
 
-const dev = process.env.NODE_ENV == "dev";
+const dev = process.env.NODE_ENV == "dev" || process.env.NODE_ENV == "test";
 
 export const initAuthentication = () => {
-  if (dev) { // wenn im dev
+  if (dev) {
     try {
       const init = async () => {
         const keyFilename: any = await import("../config/serviceAccount.json");

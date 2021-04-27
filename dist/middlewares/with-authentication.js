@@ -14,11 +14,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.withAuthentication = void 0;
 const firebase_admin_1 = __importDefault(require("firebase-admin"));
-const withAuthentication = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    return firebase_admin_1.default
+function withAuthentication(req, res, next) {
+    firebase_admin_1.default
         .auth()
         .verifyIdToken(req.headers.authorization || "")
-        .then((decodedToken) => __awaiter(void 0, void 0, void 0, function* () {
+        .then((decodedToken) => __awaiter(this, void 0, void 0, function* () {
+        console.log({ decodedToken });
         const now = Number(String(Date.now()).substr(0, String(decodedToken.exp).length));
         const expired = decodedToken.exp < now;
         if (expired) {
@@ -31,9 +32,8 @@ const withAuthentication = (req, res, next) => __awaiter(void 0, void 0, void 0,
         }
     }))
         .catch(function (error) {
-        console.log(error);
         res.status(404).send(error);
     });
-});
+}
 exports.withAuthentication = withAuthentication;
 //# sourceMappingURL=with-authentication.js.map

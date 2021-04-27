@@ -1,42 +1,96 @@
-// Here we handle all extra related requests:
-// Extras include foods and drinks!
+import { Firestore } from "@google-cloud/firestore";
+import { Request, Response } from "express";
 
-// Required middlewares:
-// - withAuth
-// - withDatabase
+const COLLECTION_NAME = "extra";
 
-// Methods:
-// POST:extra    - User creates a new extra
-// GET:extra     - Get full extra object
-// PATCH:extra   - Update extra information
-// DELETE:extra  - Marks an extra as inactive (will be kept to allow restore functionality)
-// GET:extras    - Get all authUser extras
+interface ExtraInput {
+  name: string;
+  description?: string;
+}
 
-interface Extra {}
-
-// EXTRA
-export const postExtra = async (req, res) => {
+export const postExtra = async (
+  req: Request & { database: Firestore },
+  res: Response
+) => {
   try {
-  } catch (error) {}
+    const data = req.body as ExtraInput;
+
+    const db = req.database;
+
+    const ref = await db.collection(COLLECTION_NAME).add(data);
+
+    res.status(200).send(ref.id);
+  } catch (error) {
+    res.status(400).send(error);
+  }
 };
 
-export const getExtra = async (req, res) => {
+export const getExtra = async (
+  req: Request & { database: Firestore },
+  res: Response
+) => {
   try {
-  } catch (error) {}
+    const id = req.params.id as string;
+
+    const db = req.database;
+
+    const doc = await db.collection(COLLECTION_NAME).doc(id).get();
+
+    res.status(200).send(doc.data());
+  } catch (error) {
+    res.status(400).send(error);
+  }
 };
 
-export const patchExtra = async (req, res) => {
+export const patchExtra = async (
+  req: Request & { database: Firestore },
+  res: Response
+) => {
   try {
-  } catch (error) {}
+    const data = req.body as ExtraInput;
+    const id = req.params.id as string;
+
+    const db = req.database;
+
+    await db.collection(COLLECTION_NAME).doc(id).set(data);
+
+    res.status(200).send(id);
+  } catch (error) {
+    res.status(400).send(error);
+  }
 };
 
-export const deleteExtra = async (req, res) => {
+export const deleteExtra = async (
+  req: Request & { database: Firestore },
+  res: Response
+) => {
   try {
-  } catch (error) {}
+    const id = req.params.id as string;
+
+    const db = req.database;
+
+    await db.collection(COLLECTION_NAME).doc(id).delete();
+
+    res.status(200).send(id);
+  } catch (error) {
+    res.status(400).send(error);
+  }
 };
 
-// EXTRAS
-export const getExtras = async (req, res) => {
+export const getUserExtras = async (req, res) => {
   try {
-  } catch (error) {}
+    const id = req.params.id;
+
+    const db = req.database;
+
+    const snapshot = await db
+      .collection(COLLECTION_NAME)
+      .where("userId", "==", id)
+      .get();
+
+    const data = snapshot.map((doc) => doc.data());
+    res.status(200).send({ items: data });
+  } catch (error) {
+    res.status(400).send(error);
+  }
 };
