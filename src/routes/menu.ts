@@ -16,14 +16,16 @@ export const postMenu = async (
 ) => {
   try {
     const userId = req.userId;
-    const data = req.body as MenuInput;
 
     const db = req.database;
 
-    const ref = await db.collection(COLLECTION_NAME).add({ ...data, userId });
+    const ref = await db
+      .collection(COLLECTION_NAME)
+      .add({ ...req.body, userId });
 
     res.status(200).send(ref.id);
   } catch (error) {
+    console.log(error);
     res.status(400).send(error);
   }
 };
@@ -80,20 +82,24 @@ export const deleteMenu = async (
   }
 };
 
-export const getUserMenus = async (req, res) => {
+export const getUserMenus = async (
+  req: Request & { database: Firestore; userId: string },
+  res: Response
+) => {
   try {
-    const id = req.params.id;
-
     const db = req.database;
 
     const snapshot = await db
       .collection(COLLECTION_NAME)
-      .where("userId", "==", id)
+      .where("userId", "==", req.userId)
       .get();
 
-    const data = snapshot.map((doc) => doc.data());
+    let data = [];
+    snapshot.forEach((doc) => data.push({ ...doc.data(), id: doc.id }));
+
     res.status(200).send({ items: data });
   } catch (error) {
+    console.log(error);
     res.status(400).send(error);
   }
 };

@@ -7,7 +7,6 @@ exports.setDatabase = setDatabase;
 const withDatabase = (req, res, next) => {
     if (database) {
         req.database = database;
-        console.log(database);
         next();
     }
     else {

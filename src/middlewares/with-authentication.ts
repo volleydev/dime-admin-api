@@ -5,7 +5,6 @@ export function withAuthentication(req, res, next) {
     .auth()
     .verifyIdToken(req.headers.authorization || "")
     .then(async (decodedToken) => {
-      console.log({ decodedToken });
       const now = Number(
         String(Date.now()).substr(0, String(decodedToken.exp).length)
       );

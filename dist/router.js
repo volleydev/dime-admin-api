@@ -9,11 +9,7 @@ const router = (app) => {
     app.get("/menu/:id", with_authentication_1.withAuthentication, with_database_1.withDatabase, menu_1.getMenu);
     app.patch("/menu/:id", with_authentication_1.withAuthentication, with_database_1.withDatabase, menu_1.patchMenu);
     app.delete("/menu/:id", with_authentication_1.withAuthentication, with_database_1.withDatabase, menu_1.deleteMenu);
-    app.get("/user/:id/menus", with_authentication_1.withAuthentication, with_database_1.withDatabase, menu_1.getUserMenus);
-    app.get("/menus", (req, res) => {
-        res.setHeader("Content-Type", "application/json");
-        res.status(200).send([{ id: "1" }, { id: "2" }, { id: "3" }]);
-    });
+    app.get("/menus", with_authentication_1.withAuthentication, with_database_1.withDatabase, menu_1.getUserMenus);
 };
 exports.router = router;
 //# sourceMappingURL=router.js.map

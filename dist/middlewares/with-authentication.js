@@ -19,7 +19,6 @@ function withAuthentication(req, res, next) {
         .auth()
         .verifyIdToken(req.headers.authorization || "")
         .then((decodedToken) => __awaiter(this, void 0, void 0, function* () {
-        console.log({ decodedToken });
         const now = Number(String(Date.now()).substr(0, String(decodedToken.exp).length));
         const expired = decodedToken.exp < now;
         if (expired) {

@@ -9,7 +9,7 @@ import cors from "cors";
 import { router } from "./router";
 
 const app = express();
-const port = process.env.PORT || 8081;
+const port = process.env.PORT;
 
 initAuthentication();
 initDatabase();
@@ -17,6 +17,11 @@ initDatabase();
 
 app.use(cors());
 app.use(bodyParser.json());
+
+app.use((req, res, next) => {
+  console.log(req.url);
+  next();
+});
 
 router(app);
 

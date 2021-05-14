@@ -15,10 +15,5 @@ export const router = (app) => {
   app.patch("/menu/:id", withAuthentication, withDatabase, patchMenu);
   app.delete("/menu/:id", withAuthentication, withDatabase, deleteMenu);
 
-  app.get("/user/:id/menus", withAuthentication, withDatabase, getUserMenus);
-
-  app.get("/menus", (req, res) => {
-    res.setHeader("Content-Type", "application/json");
-    res.status(200).send([{ id: "1" }, { id: "2" }, { id: "3" }]);
-  });
+  app.get("/menus", withAuthentication, withDatabase, getUserMenus);
 };
