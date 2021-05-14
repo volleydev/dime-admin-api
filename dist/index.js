@@ -17,7 +17,7 @@ database_1.initDatabase();
 app.use(cors_1.default());
 app.use(body_parser_1.default.json());
 app.use((req, res, next) => {
-    console.log(req.url);
+    console.log(req.method, req.url);
     next();
 });
 router_1.router(app);

@@ -9,15 +9,16 @@ interface ItemInput {
 }
 
 export const postItem = async (
-  req: Request & { database: Firestore },
+  req: Request & { database: Firestore; userId: string },
   res: Response
 ) => {
   try {
     const data = req.body as ItemInput;
-
     const db = req.database;
 
-    const ref = await db.collection(COLLECTION_NAME).add(data);
+    const ref = await db
+      .collection(COLLECTION_NAME)
+      .add({ ...data, userId: req.userId });
 
     res.status(200).send(ref.id);
   } catch (error) {
@@ -79,18 +80,19 @@ export const deleteItem = async (
 
 export const getUserItems = async (req, res) => {
   try {
-    const id = req.params.id;
-
     const db = req.database;
 
     const snapshot = await db
       .collection(COLLECTION_NAME)
-      .where("userId", "==", id)
+      .where("userId", "==", req.userId)
       .get();
 
-    const data = snapshot.map((doc) => doc.data());
+    let data = [];
+    snapshot.forEach((doc) => data.push({ ...doc.data(), id: doc.id }));
+
     res.status(200).send({ items: data });
   } catch (error) {
+    console.log(error);
     res.status(400).send(error);
   }
 };
