@@ -9,8 +9,11 @@ import {
   getUserMenus,
 } from "./routes/menu";
 import { postItem, getUserItems } from "./routes/item";
+import { postUser } from "./routes/user";
 
 export const router = (app) => {
+  app.post("/user", withDatabase, postUser);
+
   app.post("/item", withAuthentication, withDatabase, postItem);
   app.get("/items", withAuthentication, withDatabase, getUserItems);
 

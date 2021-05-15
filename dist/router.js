@@ -5,7 +5,9 @@ const with_authentication_1 = require("./middlewares/with-authentication");
 const with_database_1 = require("./middlewares/with-database");
 const menu_1 = require("./routes/menu");
 const item_1 = require("./routes/item");
+const user_1 = require("./routes/user");
 const router = (app) => {
+    app.post("/user", with_database_1.withDatabase, user_1.postUser);
     app.post("/item", with_authentication_1.withAuthentication, with_database_1.withDatabase, item_1.postItem);
     app.get("/items", with_authentication_1.withAuthentication, with_database_1.withDatabase, item_1.getUserItems);
     app.post("/menu", with_authentication_1.withAuthentication, with_database_1.withDatabase, menu_1.postMenu);
